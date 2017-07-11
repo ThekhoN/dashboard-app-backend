@@ -26,37 +26,15 @@ module.exports = function router (app, io) {
       } else {
         // console.log('entries.length: ', entries.length);
         res.send(entries);
-        // io.sockets.on('connection', (socket) => {
-        //   console.log('a user connected');
-        //   socket.emit('db read', 'Hello Frontend from getAllData!');
-        // });
+        io.sockets.on('connection', (socket) => {
+          console.log('a user connected');
+          socket.emit('db read', 'Hello Frontend from getAllData!');
+        });
       }
     });
   });
   app.get('/api/id/:_id', userData.getDataById);
-  app.post('/api/user-data', (req, res, next) => {
-    const gender = req.body.gender;
-    const locale = req.body.locale;
-    const profilePhoto = req.body.profilePhoto;
-    const timezone = req.body.timezone;
-    const lat = req.body.lat;
-    const long = req.body.long;
-
-    if (!gender || !locale || !profilePhoto || !timezone || !lat || !long) {
-      return res.status(422).send({error: 'gender, locale, profilePhoto, timezone, lat and long are all required'});
-    }
-    const newUserData = new UserData({gender, locale, profilePhoto, timezone, lat, long});
-    newUserData.save((err) => {
-      if (err) {
-        return next(err);
-      }
-      io.sockets.on('connection', (socket) => {
-        console.log('a user connected');
-        socket.emit('db post', 'New Data was added!');
-      });
-      return res.send(newUserData);
-    });
-  });
+  app.post('/api/user-data', userData.addData);
   app.put('/api/id/:_id', requireAuth, userData.updateDataById);
   app.delete('/api/id/:_id', requireAuth, userData.deleteDataById);
   // AUTH

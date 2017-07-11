@@ -2,6 +2,8 @@ const UserData = require('../models/userData');
 
 const userData = {
   getAllData: (req, res, next) => {
+    console.log('io in userData Controller: ', io);
+    // console.log('getting all getAllData');
     UserData.find({}, (err, entries) => {
       if (err) {
         return next(err);
