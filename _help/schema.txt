@@ -1,0 +1,7 @@
+// entry
+
+id: Unique // by default reqd
+updated: Date // by default reqd
+text: String // reqd
+author: String // reqd
+tag:['']

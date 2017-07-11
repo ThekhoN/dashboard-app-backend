@@ -1,0 +1,10 @@
+open terminal
+start mongod
+start mongo
+cd /backend
+  npm run start-server
+cd /frontend
+  npm run start
+
+n.b.
+disable your chrome extension "Allow-Control-Allow-Origin

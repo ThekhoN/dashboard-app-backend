@@ -1,0 +1,26 @@
+{
+  "name": "server-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "nodemon \"./server.js\""
+  },
+  "author": "thekho ngaosathe",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "gridfs-stream": "^1.1.1",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^4.10.4",
+    "multer": "^1.3.0",
+    "multer-gridfs-storage": "^1.2.2",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0"
+  }
+}
