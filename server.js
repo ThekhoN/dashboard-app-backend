@@ -8,7 +8,11 @@ const cors = require('cors');
 // db
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://localhost/dashboard');
+// local app
+// mongoose.connect('mongodb://localhost/dashboard');
+
+// live app
+mongoose.connect('mongodb://thekho:thekho@ds155582.mlab.com:55582/dashboard-app');
 
 // app
 const app = express();
@@ -20,7 +24,6 @@ const port = process.env.PORT || 3092;
 const server = http.createServer(app);
 
 const io = require('socket.io')(server);
-
 const UserData = require('./models/userData');
 io.sockets.on('connection', (socket) => {
   // websockets synced ~
@@ -85,6 +88,7 @@ io.sockets.on('connection', (socket) => {
     });
   });
 });
+
 router(app);
 
 server.listen(port, (err) => {
