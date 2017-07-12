@@ -20,11 +20,73 @@ const port = process.env.PORT || 3092;
 const server = http.createServer(app);
 
 const io = require('socket.io')(server);
-router(app, io);
-// io.sockets.on('connection', (socket) => {
-//   console.log('a user connected');
-//   // socket.emit('hi', 'Hello Frontend!');
-// });
+
+const UserData = require('./models/userData');
+io.sockets.on('connection', (socket) => {
+  // websockets synced ~
+  // on add data
+  app.post('/api/user-data', (req, res, next) => {
+    const gender = req.body.gender;
+    const locale = req.body.locale;
+    const profilePhoto = req.body.profilePhoto;
+    const timezone = req.body.timezone;
+    const lat = req.body.lat;
+    const long = req.body.long;
+
+    if (!gender || !locale || !profilePhoto || !timezone || !lat || !long) {
+      return res.status(422).send({error: 'gender, locale, profilePhoto, timezone, lat and long are all required'});
+    }
+    const newUserData = new UserData({gender, locale, profilePhoto, timezone, lat, long});
+    newUserData.save((err) => {
+      if (err) {
+        return next(err);
+      }
+      // socket emit
+      socket.broadcast.emit('db updated', 'db updated');
+      return res.send(newUserData);
+    });
+  });
+  // on update data
+  app.put('/api/id/:_id', (req, res, next) => {
+    const id = req.params._id;
+    const gender = req.body.gender;
+    const locale = req.body.locale;
+    const profilePhoto = req.body.profilePhoto;
+    const timezone = req.body.timezone;
+    const lat = req.body.lat;
+    const long = req.body.long;
+
+    if (!gender || !locale || !profilePhoto || !timezone || !lat || !long) {
+      return res.status(422).send({error: 'entry text and author are required'});
+    }
+    UserData.findOneAndUpdate({_id: id}, {$set: {gender, locale, profilePhoto, timezone, lat, long}}, {new: true}, (err, entry) => {
+      if (!entry) {
+        return res.status(422).send({error: 'entry with given id does not exist'});
+      }
+      if (err) {
+        return next(err);
+      }
+      // socket emit
+      socket.broadcast.emit('db updated', 'db updated');
+      return res.send(entry);
+    });
+  });
+  // on delete data
+  app.delete('/api/id/:_id', (req, res, next) => {
+    const id = req.params._id;
+    UserData.find({_id: id}).remove().exec((err, entry) => {
+      if (err) {
+        return next(err);
+      } else {
+        // socket emit
+        socket.broadcast.emit('db updated', 'db updated');
+        res.send('entry was removed. . .');
+      }
+    });
+  });
+});
+router(app);
+
 server.listen(port, (err) => {
   if (err) {
     console.log('error in server: ', err);
