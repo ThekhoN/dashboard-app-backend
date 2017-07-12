@@ -1,0 +1,6 @@
+{
+  "name": "dashboard-app-db-server",
+  "description": "backend for dashboard-app",
+  "repository": "https://github.com/ThekhoN/dashboard-app-backend",
+  "keywords": ["node", "express", "heroku", "mongodb"]
+}

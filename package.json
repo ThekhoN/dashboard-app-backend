@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node \"./server.js\"" ,
-    "local-server": "nodemon \"./server.js\""
+    "start": "node \"./index.js\"" ,
+    "local-server": "nodemon \"./index.js\""
   },
   "author": "thekho ngaosathe",
   "license": "ISC",

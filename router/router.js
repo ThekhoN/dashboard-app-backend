@@ -12,6 +12,9 @@ const requireSignin = passport.authenticate('local', {session: false});
 
 module.exports = function router (app) {
   // USER DATA
+  app.get('/', (req, res, next) => {
+    res.send('dashboard-app-db-server running live. . .');
+  });
   app.get('/api', userData.getAllData);
   app.get('/api/id/:_id', userData.getDataById);
   // app.post('/api/user-data', userData.addData);
