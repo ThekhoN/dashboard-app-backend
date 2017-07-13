@@ -9,10 +9,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 // local app
-mongoose.connect('mongodb://localhost/dashboard');
+// mongoose.connect('mongodb://localhost/dashboard');
 
 // live app
-// mongoose.connect('mongodb://thekho:thekho@ds155582.mlab.com:55582/dashboard-app');
+mongoose.connect('mongodb://thekho:thekho@ds155582.mlab.com:55582/dashboard-app');
 
 // app
 const app = express();
